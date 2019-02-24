@@ -36,7 +36,7 @@ app.use(bodyParser.json());
 //then we use the response (res) to send the result just like we did with a locally defined object 
 app.get('/get/:id', (req, res) => {
 	let newId = req.params.id;
-	//console.log(newId);
+	console.log(newId);
 	mongoClient.connect(url, { useNewUrlParser: true }, function (err, db) {
 		if (err) { throw err };
 		var dbObject = db.db("ifeelusers");
@@ -63,7 +63,7 @@ app.get('/get/:id', (req, res) => {
 //then we use the response (res) to send the result just like we did with a locally defined object 
 app.get('/fetch/:id', (req, res) => {
 	let newId = req.params.id;
-	console.log(newId);
+	//console.log(newId);
 	mongoClient.connect(url, { useNewUrlParser: true }, function (err, db) {
 		if (err) { throw err };
 		var dbObject = db.db("ifeelusers");
