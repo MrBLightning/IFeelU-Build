@@ -39,7 +39,7 @@ app.get('/get/:id', (req, res) => {
 	//console.log(newId);
 	mongoClient.connect(url, { useNewUrlParser: true }, function (err, db) {
 		if (err) { throw err };
-		var dbObject = db.db("IFeelUsers");
+		var dbObject = db.db("ifeelusers");
 		var myquery = {};
 		//this code allows me to make the field I'm looking for and it's value as variables
 		//for some unknown reason I cannot get the value of newId to be taken into myquery without eval
