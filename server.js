@@ -66,7 +66,7 @@ app.get('/fetch/:id', (req, res) => {
 	//console.log(newId);
 	mongoClient.connect(url, { useNewUrlParser: true }, function (err, db) {
 		if (err) { throw err };
-		var dbObject = db.db("IFeelUsers");
+		var dbObject = db.db("ifeelusers");
 		dbObject.collection("records").find({FirstName: newId}).toArray(function(err, result) {
 			if (err) { throw err };
 			//console.log(result);
