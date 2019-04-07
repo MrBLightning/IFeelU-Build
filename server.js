@@ -69,7 +69,7 @@ app.post("/fetch", (req, res) => {
         throw err;
       }
       if (result != null) {
-        console.log(result);
+        //console.log(result);
         res.send(result);
       } else {
         console.log("result returned blank for UserId " + UserId1);
@@ -117,7 +117,6 @@ app.put("/get", (req, res) => {
   let Pain = req.body.Pain;
   let Dizziness = req.body.Dizziness;
   let Exhaustion = req.body.Exhaustion;
-  let updateSucceed = false;
 
   console.log("1 document at ID " + UserId1 + " need to be updated");
 
@@ -127,8 +126,10 @@ app.put("/get", (req, res) => {
     }
     let dbObject = db.db("ifeelusers");
     let myquery = {};
+    let ObjectID = require('mongodb').ObjectID;
+    let NewUserId = ObjectID(UserId1);
     let searchFieldName1 = "UserId";
-    myquery[searchFieldName1] = UserId1;
+    myquery[searchFieldName1] = NewUserId;
     let newvalues = {
       $set: {
         TrackingGeneralFeeling: GeneralFeeling,
@@ -143,24 +144,70 @@ app.put("/get", (req, res) => {
     };
     dbObject
       .collection("users")
-      .updateOne(myquery, newvalues, function(err, res) {
+      .updateOne(myquery, newvalues, function(err, result) {
         if (err) {
           throw err;
         }
         console.log(
-          "1 document at UserId " + UserId1 + " updated " + res.result.nModified
+          "1 document at UserId " + UserId1 + " updated " + result.result.nModified
         );
-        updateSucceed = true;
+        res.send(UserId1);
         db.close();
       });
   });
-  if (updateSucceed) {
-    //we use res.send because otherwise the function on the client will get no success condition
-    res.send("succesfully updated User");
-  } else {
-    res.send("couldn't find UserId");
-  }
 });
+
+//PUT call from client to server - updates user basic information in place UserId
+app.put("/UpdateUser", (req, res) => {
+  let UpdateUser = {
+      FirstName: req.body.FirstName,
+      LastName: req.body.LastName,
+      userName: req.body.userName,
+      mail: req.body.mail,
+      password: req.body.password,
+      conditions: req.body.conditions,
+      treatments: req.body.treatments,
+      UserId: req.body.UserId
+  };
+
+  console.log("1 document at ID " + UpdateUser.UserId + " need to be updated");
+
+  mongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
+    if (err) {
+      throw err;
+    }
+    let dbObject = db.db("ifeelusers");
+    let myquery = {};
+    let ObjectID = require('mongodb').ObjectID;
+    let NewUserId = ObjectID(UpdateUser.UserId);
+    let searchFieldName1 = "UserId";
+    myquery[searchFieldName1] = NewUserId;
+    let newvalues = {
+      $set: { 
+        FirstName: UpdateUser.FirstName,
+        LastName: UpdateUser.LastName,
+        userName: UpdateUser.userName,
+        mail: UpdateUser.mail,
+        password: UpdateUser.password,
+        conditions: UpdateUser.conditions,
+        treatments: UpdateUser.treatments  
+       }
+    };
+    dbObject
+      .collection("users")
+      .updateOne(myquery, newvalues, function(err, result) {
+        if (err) {
+          throw err;
+        }
+        console.log(
+          "1 document at UserId " + UpdateUser.UserId + " updated " + result.result.nModified
+        );
+        res.send(UpdateUser.UserId);
+        db.close();
+      });
+  });
+});
+
 
 //PUT call from client (page symptoms) to server - create user tracking records
 app.put("/set", (req, res) => {
@@ -188,7 +235,6 @@ app.put("/set", (req, res) => {
   let time1 = req.body.currentTime;
   let conditions = req.body.conditions;
   let treatments = req.body.treatments;
-  let updateSucceed = false;
 
   if (TrackGeneralFeeling) {
     //we need to create a record of GeneralFeeling for user UserId
@@ -210,23 +256,17 @@ app.put("/set", (req, res) => {
         conditions: conditions,
         treatments: treatments
       };
-      dbObject.collection("records").insertOne(newRecord, function(err, res) {
+      dbObject.collection("records").insertOne(newRecord, function(err, result) {
         if (err) {
           throw err;
         }
         console.log(
-          "1 document at UserId " + UserId1 + " inserted " + res.insertedCount
+          "1 document at UserId " + UserId1 + " inserted " + result.insertedCount
         );
-        updateSucceed = true;
+        //res.send(UserId1);
         db.close();
       });
     });
-    if (updateSucceed) {
-      //we use res.send because otherwise the function on the client will get no success condition
-      res.send("succesfully updated GeneralFeeling record");
-    } else {
-      res.send("couldn't find UserId");
-    }
   }
   if (TrackAppetite) {
     //we need to create a record of GeneralFeeling for user UserId
@@ -248,23 +288,17 @@ app.put("/set", (req, res) => {
         conditions: conditions,
         treatments: treatments
       };
-      dbObject.collection("records").insertOne(newRecord, function(err, res) {
+      dbObject.collection("records").insertOne(newRecord, function(err, result) {
         if (err) {
           throw err;
         }
         console.log(
-          "1 document at UserId " + UserId1 + " inserted " + res.insertedCount
+          "1 document at UserId " + UserId1 + " inserted " + result.insertedCount
         );
-        updateSucceed = true;
+        //res.send(UserId1);
         db.close();
       });
     });
-    if (updateSucceed) {
-      //we use res.send because otherwise the function on the client will get no success condition
-      res.send("succesfully updated Appetite record");
-    } else {
-      res.send("couldn't find UserId");
-    }
   }
   if (TrackNausea) {
     //we need to create a record of GeneralFeeling for user UserId
@@ -286,23 +320,17 @@ app.put("/set", (req, res) => {
         conditions: conditions,
         treatments: treatments
       };
-      dbObject.collection("records").insertOne(newRecord, function(err, res) {
+      dbObject.collection("records").insertOne(newRecord, function(err, result) {
         if (err) {
           throw err;
         }
         console.log(
-          "1 document at UserId " + UserId1 + " inserted " + res.insertedCount
+          "1 document at UserId " + UserId1 + " inserted " + result.insertedCount
         );
-        updateSucceed = true;
+        //res.send(UserId1);
         db.close();
       });
     });
-    if (updateSucceed) {
-      //we use res.send because otherwise the function on the client will get no success condition
-      res.send("succesfully updated Nausea record");
-    } else {
-      res.send("couldn't find UserId");
-    }
   }
   if (TrackBowelMovements) {
     //we need to create a record of GeneralFeeling for user UserId
@@ -324,23 +352,17 @@ app.put("/set", (req, res) => {
         conditions: conditions,
         treatments: treatments
       };
-      dbObject.collection("records").insertOne(newRecord, function(err, res) {
+      dbObject.collection("records").insertOne(newRecord, function(err, result) {
         if (err) {
           throw err;
         }
         console.log(
-          "1 document at UserId " + UserId1 + " inserted " + res.insertedCount
+          "1 document at UserId " + UserId1 + " inserted " + result.insertedCount
         );
-        updateSucceed = true;
+        //res.send(UserId1);
         db.close();
       });
     });
-    if (updateSucceed) {
-      //we use res.send because otherwise the function on the client will get no success condition
-      res.send("succesfully updated BowelMovements record");
-    } else {
-      res.send("couldn't find UserId");
-    }
   }
   if (TrackMotivation) {
     //we need to create a record of GeneralFeeling for user UserId
@@ -362,23 +384,17 @@ app.put("/set", (req, res) => {
         conditions: conditions,
         treatments: treatments
       };
-      dbObject.collection("records").insertOne(newRecord, function(err, res) {
+      dbObject.collection("records").insertOne(newRecord, function(err, result) {
         if (err) {
           throw err;
         }
         console.log(
-          "1 document at UserId " + UserId1 + " inserted " + res.insertedCount
+          "1 document at UserId " + UserId1 + " inserted " + result.insertedCount
         );
-        updateSucceed = true;
+        //res.send(UserId1);
         db.close();
       });
     });
-    if (updateSucceed) {
-      //we use res.send because otherwise the function on the client will get no success condition
-      res.send("succesfully updated Motivation record");
-    } else {
-      res.send("couldn't find UserId");
-    }
   }
   if (TrackPain) {
     //we need to create a record of GeneralFeeling for user UserId
@@ -400,23 +416,17 @@ app.put("/set", (req, res) => {
         conditions: conditions,
         treatments: treatments
       };
-      dbObject.collection("records").insertOne(newRecord, function(err, res) {
+      dbObject.collection("records").insertOne(newRecord, function(err, result) {
         if (err) {
           throw err;
         }
         console.log(
-          "1 document at UserId " + UserId1 + " inserted " + res.insertedCount
+          "1 document at UserId " + UserId1 + " inserted " + result.insertedCount
         );
-        updateSucceed = true;
+        //res.send(UserId1);
         db.close();
       });
     });
-    if (updateSucceed) {
-      //we use res.send because otherwise the function on the client will get no success condition
-      res.send("succesfully updated Pain record");
-    } else {
-      res.send("couldn't find UserId");
-    }
   }
   if (TrackDizziness) {
     //we need to create a record of GeneralFeeling for user UserId
@@ -438,23 +448,17 @@ app.put("/set", (req, res) => {
         conditions: conditions,
         treatments: treatments
       };
-      dbObject.collection("records").insertOne(newRecord, function(err, res) {
+      dbObject.collection("records").insertOne(newRecord, function(err, result) {
         if (err) {
           throw err;
         }
         console.log(
-          "1 document at UserId " + UserId1 + " inserted " + res.insertedCount
+          "1 document at UserId " + UserId1 + " inserted " + result.insertedCount
         );
-        updateSucceed = true;
+        //res.send(UserId1);
         db.close();
       });
     });
-    if (updateSucceed) {
-      //we use res.send because otherwise the function on the client will get no success condition
-      res.send("succesfully updated Dizziness record");
-    } else {
-      res.send("couldn't find UserId");
-    }
   }
   if (TrackExhaustion) {
     //we need to create a record of GeneralFeeling for user UserId
@@ -476,24 +480,20 @@ app.put("/set", (req, res) => {
         conditions: conditions,
         treatments: treatments
       };
-      dbObject.collection("records").insertOne(newRecord, function(err, res) {
+      dbObject.collection("records").insertOne(newRecord, function(err, result) {
         if (err) {
           throw err;
         }
         console.log(
-          "1 document at UserId " + UserId1 + " inserted " + res.insertedCount
+          "1 document at UserId " + UserId1 + " inserted " + result.insertedCount
         );
-        updateSucceed = true;
+        //res.send(UserId1);
         db.close();
       });
     });
-    if (updateSucceed) {
-      //we use res.send because otherwise the function on the client will get no success condition
-      res.send("succesfully updated Exhaustion record");
-    } else {
-      res.send("couldn't find UserId");
-    }
   }
+  // no matter what we send some sort of result back to the client
+  res.send(UserId1);
 });
 
 //PUT call from client to server - update text in user records
@@ -515,7 +515,6 @@ app.put("/addText", (req, res) => {
   let PainText = req.body.PainText;
   let DizzinessText = req.body.DizzinessText;
   let ExhaustionText = req.body.ExhaustionText;
-  let updateSucceed = false;
 
   if (TrackGeneralFeeling) {
     //we need to add the GeneralFeeling text to the last GeneralFeeling record for user UserId
@@ -532,26 +531,17 @@ app.put("/addText", (req, res) => {
       let newvalues = { $set: { ExtraText: GeneralFeelingText } };
       dbObject
         .collection("records")
-        .findOneAndUpdate(myquery, newvalues, { sort: { _id: -1 } }, function(
-          err,
-          res
-        ) {
+        .findOneAndUpdate(myquery, newvalues, { sort: { _id: -1 } }, function(err,result) {
           if (err) {
             throw err;
           }
-          if (res != undefined) {
+          if (result != undefined) {
             console.log("1 document at UserId " + UserId1 + " updated");
-            updateSucceed = true;
+            res.send(result);
           }
           db.close();
         });
     });
-    if (updateSucceed) {
-      //we use res.send because otherwise the function on the client will get no success condition
-      res.send("succesfully updated GeneralFeeling record");
-    } else {
-      res.send("couldn't find UserId");
-    }
   }
   if (TrackAppetite) {
     //we need to add the Appetite text to the last Appetite record for user UserId
@@ -568,26 +558,17 @@ app.put("/addText", (req, res) => {
       let newvalues = { $set: { ExtraText: AppetiteText } };
       dbObject
         .collection("records")
-        .findOneAndUpdate(myquery, newvalues, { sort: { _id: -1 } }, function(
-          err,
-          res
-        ) {
+        .findOneAndUpdate(myquery, newvalues, { sort: { _id: -1 } }, function(err,result) {
           if (err) {
             throw err;
           }
-          if (res != undefined) {
+          if (result != undefined) {
             console.log("1 document at UserId " + UserId1 + " updated");
-            updateSucceed = true;
+            res.send(result);
           }
           db.close();
         });
     });
-    if (updateSucceed) {
-      //we use res.send because otherwise the function on the client will get no success condition
-      res.send("succesfully updated Appetite record");
-    } else {
-      res.send("couldn't find UserId");
-    }
   }
   if (TrackNausea) {
     //we need to add the Nausea text to the last Nausea record for user UserId
@@ -604,16 +585,13 @@ app.put("/addText", (req, res) => {
       let newvalues = { $set: { ExtraText: NauseaText } };
       dbObject
         .collection("records")
-        .findOneAndUpdate(myquery, newvalues, { sort: { _id: -1 } }, function(
-          err,
-          res
-        ) {
+        .findOneAndUpdate(myquery, newvalues, { sort: { _id: -1 } }, function(err,result) {
           if (err) {
             throw err;
           }
-          if (res != undefined) {
+          if (result != undefined) {
             console.log("1 document at UserId " + UserId1 + " updated");
-            updateSucceed = true;
+            res.send(result);
           }
           db.close();
         });
@@ -640,26 +618,17 @@ app.put("/addText", (req, res) => {
       let newvalues = { $set: { ExtraText: BowelMovementsText } };
       dbObject
         .collection("records")
-        .findOneAndUpdate(myquery, newvalues, { sort: { _id: -1 } }, function(
-          err,
-          res
-        ) {
+        .findOneAndUpdate(myquery, newvalues, { sort: { _id: -1 } }, function(err,result) {
           if (err) {
             throw err;
           }
-          if (res != undefined) {
+          if (result != undefined) {
             console.log("1 document at UserId " + UserId1 + " updated");
-            updateSucceed = true;
+            res.send(result);
           }
           db.close();
         });
     });
-    if (updateSucceed) {
-      //we use res.send because otherwise the function on the client will get no success condition
-      res.send("succesfully updated BowelMovements record");
-    } else {
-      res.send("couldn't find UserId");
-    }
   }
   if (TrackMotivation) {
     //we need to add the Motivation text to the last Motivation record for user UserId
@@ -676,26 +645,17 @@ app.put("/addText", (req, res) => {
       let newvalues = { $set: { ExtraText: MotivationText } };
       dbObject
         .collection("records")
-        .findOneAndUpdate(myquery, newvalues, { sort: { _id: -1 } }, function(
-          err,
-          res
-        ) {
+        .findOneAndUpdate(myquery, newvalues, { sort: { _id: -1 } }, function(err,result) {
           if (err) {
             throw err;
           }
-          if (res != undefined) {
+          if (result != undefined) {
             console.log("1 document at UserId " + UserId1 + " updated");
-            updateSucceed = true;
+            res.send(result);
           }
           db.close();
         });
     });
-    if (updateSucceed) {
-      //we use res.send because otherwise the function on the client will get no success condition
-      res.send("succesfully updated Motivation record");
-    } else {
-      res.send("couldn't find UserId");
-    }
   }
   if (TrackPain) {
     //we need to add the Pain text to the last Pain record for user UserId
@@ -712,26 +672,17 @@ app.put("/addText", (req, res) => {
       let newvalues = { $set: { ExtraText: PainText } };
       dbObject
         .collection("records")
-        .findOneAndUpdate(myquery, newvalues, { sort: { _id: -1 } }, function(
-          err,
-          res
-        ) {
+        .findOneAndUpdate(myquery, newvalues, { sort: { _id: -1 } }, function(err,result) {
           if (err) {
             throw err;
           }
-          if (res != undefined) {
+          if (result != undefined) {
             console.log("1 document at UserId " + UserId1 + " updated");
-            updateSucceed = true;
+            res.send(result);
           }
           db.close();
         });
     });
-    if (updateSucceed) {
-      //we use res.send because otherwise the function on the client will get no success condition
-      res.send("succesfully updated Pain record");
-    } else {
-      res.send("couldn't find UserId");
-    }
   }
   if (TrackDizziness) {
     //we need to add the Dizziness text to the last Dizziness record for user UserId
@@ -748,26 +699,17 @@ app.put("/addText", (req, res) => {
       let newvalues = { $set: { ExtraText: DizzinessText } };
       dbObject
         .collection("records")
-        .findOneAndUpdate(myquery, newvalues, { sort: { _id: -1 } }, function(
-          err,
-          res
-        ) {
+        .findOneAndUpdate(myquery, newvalues, { sort: { _id: -1 } }, function(err,result) {
           if (err) {
             throw err;
           }
-          if (res != undefined) {
+          if (result != undefined) {
             console.log("1 document at UserId " + UserId1 + " updated");
-            updateSucceed = true;
+            res.send(result);
           }
           db.close();
         });
     });
-    if (updateSucceed) {
-      //we use res.send because otherwise the function on the client will get no success condition
-      res.send("succesfully updated Dizziness record");
-    } else {
-      res.send("couldn't find UserId");
-    }
   }
   if (TrackExhaustion) {
     //we need to add the Exhaustion text to the last Exhaustion record for user UserId
@@ -784,26 +726,17 @@ app.put("/addText", (req, res) => {
       let newvalues = { $set: { ExtraText: ExhaustionText } };
       dbObject
         .collection("records")
-        .findOneAndUpdate(myquery, newvalues, { sort: { _id: -1 } }, function(
-          err,
-          res
-        ) {
+        .findOneAndUpdate(myquery, newvalues, { sort: { _id: -1 } }, function(err,result) {
           if (err) {
             throw err;
           }
-          if (res != undefined) {
+          if (result != undefined) {
             console.log("1 document at UserId " + UserId1 + " updated");
-            updateSucceed = true;
+            res.send(result);
           }
           db.close();
         });
     });
-    if (updateSucceed) {
-      //we use res.send because otherwise the function on the client will get no success condition
-      res.send("succesfully updated Exhaustion record");
-    } else {
-      res.send("couldn't find UserId");
-    }
   }
 });
 
@@ -832,7 +765,6 @@ app.put("/newUser", (req, res) => {
         TrackingTime_2: "19:00",
         UserId: ""
     };
-    let updateSucceed = false;
 
     //we need to create a record of this user in users collection
     mongoClient.connect(url, { useNewUrlParser: true }, async function(err, db) {
@@ -873,14 +805,6 @@ app.put("/newUser", (req, res) => {
             };
         });
     });
-    // if (updateSucceed) {
-    //     //we use res.send because otherwise the function on the client will get no success condition
-    //     console.log("succesfully created new user record");
-    //     res.send("succesfully created new user record");
-    // } else {
-    //     console.log("user record creation failed");
-    //     res.send("user record creation failed");
-    // }            
 });    
 
 //this activates the server to listen at localhost with the port available OR port 3000
