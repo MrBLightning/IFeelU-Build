@@ -16,7 +16,8 @@ const mongoClient = require("mongodb").MongoClient;
 //let url = 'mongodb://localhost:27017/';
 //this is the URL for the nodechef server I created
 let url =
-  "mongodb://ifeelusers-6133:HQJbSCVKH1mDIm65jVFLehl3XXIUjU@db-ifeelusers-6133.nodechef.com:5409/ifeelusers";
+  //"mongodb://ifeelusers-6133:HQJbSCVKH1mDIm65jVFLehl3XXIUjU@db-ifeelusers-6133.nodechef.com:5409/ifeelusers";
+  "mongodb://ifeelu-6133:S15Xbx7Lym3eHuEuaCvIB7WIgw9MDG@db-ifeelu-6133.nodechef.com:5446/ifeelu";
 
 const app = express();
 
