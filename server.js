@@ -44,7 +44,8 @@ app.post("/fetch", (req, res) => {
     if (err) {
       throw err;
     }
-    let dbObject = db.db("ifeelusers");
+    //let dbObject = db.db("ifeelusers");
+    let dbObject = db.db("ifeelu");
 
     let myquery = {};
     //there are 2 options to locate a user.
@@ -92,7 +93,8 @@ app.get("/fetch/:id", (req, res) => {
     if (err) {
       throw err;
     }
-    let dbObject = db.db("ifeelusers");
+    //let dbObject = db.db("ifeelusers");
+    let dbObject = db.db("ifeelu");
     dbObject
       .collection("records")
       .find({ UserId: newId })
@@ -125,7 +127,8 @@ app.put("/get", (req, res) => {
     if (err) {
       throw err;
     }
-    let dbObject = db.db("ifeelusers");
+    //let dbObject = db.db("ifeelusers");
+    let dbObject = db.db("ifeelu");
     let myquery = {};
     let ObjectID = require('mongodb').ObjectID;
     let NewUserId = ObjectID(UserId1);
@@ -177,7 +180,8 @@ app.put("/UpdateUser", (req, res) => {
     if (err) {
       throw err;
     }
-    let dbObject = db.db("ifeelusers");
+    //let dbObject = db.db("ifeelusers");
+    let dbObject = db.db("ifeelu");
     let myquery = {};
     let ObjectID = require('mongodb').ObjectID;
     let NewUserId = ObjectID(UpdateUser.UserId);
@@ -243,7 +247,8 @@ app.put("/set", (req, res) => {
       if (err) {
         throw err;
       }
-      let dbObject = db.db("ifeelusers");
+      //let dbObject = db.db("ifeelusers");
+      let dbObject = db.db("ifeelu");
       let newRecord = {
         FirstName: FirstName1,
         LastName: LastName1,
@@ -275,7 +280,8 @@ app.put("/set", (req, res) => {
       if (err) {
         throw err;
       }
-      let dbObject = db.db("ifeelusers");
+      //let dbObject = db.db("ifeelusers");
+      let dbObject = db.db("ifeelu");
       let newRecord = {
         FirstName: FirstName1,
         LastName: LastName1,
@@ -307,7 +313,8 @@ app.put("/set", (req, res) => {
       if (err) {
         throw err;
       }
-      let dbObject = db.db("ifeelusers");
+      //let dbObject = db.db("ifeelusers");
+      let dbObject = db.db("ifeelu");
       let newRecord = {
         FirstName: FirstName1,
         LastName: LastName1,
@@ -339,7 +346,8 @@ app.put("/set", (req, res) => {
       if (err) {
         throw err;
       }
-      let dbObject = db.db("ifeelusers");
+      //let dbObject = db.db("ifeelusers");
+      let dbObject = db.db("ifeelu");
       let newRecord = {
         FirstName: FirstName1,
         LastName: LastName1,
@@ -371,7 +379,8 @@ app.put("/set", (req, res) => {
       if (err) {
         throw err;
       }
-      let dbObject = db.db("ifeelusers");
+      //let dbObject = db.db("ifeelusers");
+      let dbObject = db.db("ifeelu");
       let newRecord = {
         FirstName: FirstName1,
         LastName: LastName1,
@@ -403,7 +412,8 @@ app.put("/set", (req, res) => {
       if (err) {
         throw err;
       }
-      let dbObject = db.db("ifeelusers");
+      //let dbObject = db.db("ifeelusers");
+      let dbObject = db.db("ifeelu");
       let newRecord = {
         FirstName: FirstName1,
         LastName: LastName1,
@@ -435,7 +445,8 @@ app.put("/set", (req, res) => {
       if (err) {
         throw err;
       }
-      let dbObject = db.db("ifeelusers");
+      //let dbObject = db.db("ifeelusers");
+      let dbObject = db.db("ifeelu");
       let newRecord = {
         FirstName: FirstName1,
         LastName: LastName1,
@@ -467,7 +478,8 @@ app.put("/set", (req, res) => {
       if (err) {
         throw err;
       }
-      let dbObject = db.db("ifeelusers");
+      //let dbObject = db.db("ifeelusers");
+      let dbObject = db.db("ifeelu");
       let newRecord = {
         FirstName: FirstName1,
         LastName: LastName1,
@@ -523,7 +535,8 @@ app.put("/addText", (req, res) => {
       if (err) {
         throw err;
       }
-      let dbObject = db.db("ifeelusers");
+      //let dbObject = db.db("ifeelusers");
+      let dbObject = db.db("ifeelu");
       let myquery = {};
       let searchFieldName1 = "UserId";
       let searchFieldName2 = "RecordTracking";
@@ -550,7 +563,8 @@ app.put("/addText", (req, res) => {
       if (err) {
         throw err;
       }
-      let dbObject = db.db("ifeelusers");
+      //let dbObject = db.db("ifeelusers");
+      let dbObject = db.db("ifeelu");
       let myquery = {};
       let searchFieldName1 = "UserId";
       let searchFieldName2 = "RecordTracking";
@@ -577,7 +591,8 @@ app.put("/addText", (req, res) => {
       if (err) {
         throw err;
       }
-      let dbObject = db.db("ifeelusers");
+      //let dbObject = db.db("ifeelusers");
+      let dbObject = db.db("ifeelu");
       let myquery = {};
       let searchFieldName1 = "UserId";
       let searchFieldName2 = "RecordTracking";
@@ -610,7 +625,8 @@ app.put("/addText", (req, res) => {
       if (err) {
         throw err;
       }
-      let dbObject = db.db("ifeelusers");
+      //let dbObject = db.db("ifeelusers");
+      let dbObject = db.db("ifeelu");
       let myquery = {};
       let searchFieldName1 = "UserId";
       let searchFieldName2 = "RecordTracking";
@@ -637,7 +653,8 @@ app.put("/addText", (req, res) => {
       if (err) {
         throw err;
       }
-      let dbObject = db.db("ifeelusers");
+      //let dbObject = db.db("ifeelusers");
+      let dbObject = db.db("ifeelu");
       let myquery = {};
       let searchFieldName1 = "UserId";
       let searchFieldName2 = "RecordTracking";
@@ -664,7 +681,8 @@ app.put("/addText", (req, res) => {
       if (err) {
         throw err;
       }
-      let dbObject = db.db("ifeelusers");
+      //let dbObject = db.db("ifeelusers");
+      let dbObject = db.db("ifeelu");
       let myquery = {};
       let searchFieldName1 = "UserId";
       let searchFieldName2 = "RecordTracking";
@@ -691,7 +709,8 @@ app.put("/addText", (req, res) => {
       if (err) {
         throw err;
       }
-      let dbObject = db.db("ifeelusers");
+      //let dbObject = db.db("ifeelusers");
+      let dbObject = db.db("ifeelu");
       let myquery = {};
       let searchFieldName1 = "UserId";
       let searchFieldName2 = "RecordTracking";
@@ -718,7 +737,8 @@ app.put("/addText", (req, res) => {
       if (err) {
         throw err;
       }
-      let dbObject = db.db("ifeelusers");
+      //let dbObject = db.db("ifeelusers");
+      let dbObject = db.db("ifeelu");
       let myquery = {};
       let searchFieldName1 = "UserId";
       let searchFieldName2 = "RecordTracking";
@@ -770,7 +790,8 @@ app.put("/newUser", (req, res) => {
     //we need to create a record of this user in users collection
     mongoClient.connect(url, { useNewUrlParser: true }, async function(err, db) {
         if (err) {throw err;}
-        let dbObject = db.db("ifeelusers");
+        //let dbObject = db.db("ifeelusers");
+        let dbObject = db.db("ifeelu");
         dbObject.collection("users").insertOne(LoadNewUser, await function(err, result) {
             if (err) {throw err;}
             console.log("1 document inserted " + result.insertedCount);
@@ -785,7 +806,8 @@ app.put("/newUser", (req, res) => {
                 //we need to update the UserId for the last User record added to users collection
                 mongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
                     if (err) {throw err;}
-                    let dbObject = db.db("ifeelusers");
+                    //let dbObject = db.db("ifeelusers");
+                    let dbObject = db.db("ifeelu");
                     let myquery = {};
                     let searchFieldName1 = "userName";
                     let searchFieldName2 = "password";
